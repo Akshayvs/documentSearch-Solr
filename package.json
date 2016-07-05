@@ -1,0 +1,32 @@
+{
+  "name": "solr_search",
+  "version": "1.0.0",
+  "description": "utility to search documents using apache solr ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "node.js",
+    "apache",
+    "solr",
+    "couchbase",
+    "mocha",
+    "chai"
+  ],
+  "author": "akshay_S",
+  "license": "ISC",
+
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3",
+    "mockery": "^1.7.0",
+    "sinon": "^1.17.4"
+  },
+  "dependencies": {
+    "couchbase": "^2.2.1",
+    "restify": "^4.1.1",
+    "solr": "^0.3.0"
+  }
+}
