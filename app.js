@@ -1,6 +1,9 @@
 'use strict';
+
 var express = require('express');
 var bodyParser = require('body-parser');
+var lodash=require('lodash');
+
 var fs=require('fs');
 var app = express();
 var lookupApi=require('./lib/lookupApi');
@@ -19,9 +22,10 @@ app.post('/key', function (req, res) {
     console.log(req.body);
     var documentObject = req.body;
     var documentString = documentObject.key;
-    documentKeys = documentString ? documentString.split(',') : [];
+    
+    var documentKeys_PossibleDuplicates = documentString ? documentString.split(',') : [];
+    documentKeys=lodash.uniq(documentKeys_PossibleDuplicates ); // Eliminating duplicates
     console.log(documentKeys);
-
 
     lookupApi.init(documentKeys,res);
     
