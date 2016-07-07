@@ -15,5 +15,11 @@ module.exports = {
         couchbase_cluster_ip: '127.0.0.1',
         bucket_username: 'travel-sample',
         bucket_password: ''
+    },
+    solrlocal: {
+        host: 'localhost',
+        port: 8983,
+        path: '/solr',
+        core: 'testCore'
     }
 }
