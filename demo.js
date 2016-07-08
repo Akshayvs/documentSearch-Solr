@@ -1,22 +1,10 @@
-var solr = require('solr-client');
-var config=require('config');
-var solrConfig=config.solrlocal;
+var lodash = require('lodash');
 
-var client = solr.createClient({
-    host: 'localhost',
-    port: 8983,
-    path: '/solr',
-    core: 'testCore'
-});
-client.autoCommit = true;
+var arr= [1,2,3,4,5,6,7,8,9];
 
-var obj={ "id" : 121, "title_t" : "WINNER_3!", "firstNameis" :"AkshayVS" }
+arr.forEach(function(val){
 
-client.add(obj,function(err,obj){
-    if(err){
-        console.log(err);
-    }else{
-        client.softCommit();
-        console.log('Solr response:', obj);
-    }
-});
+    console.log(val);
+
+
+})

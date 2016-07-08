@@ -9,7 +9,7 @@ var app = express();
 var lookupApi = require('./lib/lookupApi');
 
 function main() {
-    var documentKeys;
+    var keys;
     var searchFields;
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
@@ -19,13 +19,14 @@ function main() {
     });
 
     app.post('/key', function (req, res) {
+        
         var documentStringTemp = req.body.key;
         var documentString = documentStringTemp.replace(/ /g, ''); // elinimating whitespaces
-        var documentKeys_PossibleDuplicates = documentString ? documentString.split(',') : [];
-        documentKeys = lodash.uniq(documentKeys_PossibleDuplicates); // Eliminating duplicates
-        console.log(documentKeys);
+        var keysArray_withDuplicate = documentString ? documentString.split(',') : [];
+        keys = lodash.uniq(keysArray_withDuplicate); // Eliminating duplicates
+        console.log(keys);
 
-        lookupApi.init(documentKeys, res);
+        lookupApi.init(keys, res);
         //resp.sendfile('./fieldSearch.html');
     });
 
@@ -37,7 +38,7 @@ function main() {
         searchFields = lodash.uniq(values_PossibleDuplicates);
         console.log(searchFields);
 
-        //lookupApi.init(documentKeys, res);
+        //lookupApi.init(keys, res);
         var res_obj = {name: 'akshay', university: 'George Mason University'}
         res.send(200, res_obj)
 
