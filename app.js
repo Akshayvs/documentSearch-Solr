@@ -41,13 +41,10 @@ function main() {
         //lookupApi.init(keys, res);
         var res_obj = {name: 'akshay', university: 'George Mason University'}
         res.send(200, res_obj)
-
     });
-
 
     app.listen(3000, function () {
         console.log('server active : http://127.0.0.1:3000');
     });
-
 }
 main();
