@@ -15,11 +15,11 @@ function main() {
     app.use(bodyParser.urlencoded({extended: true}));
 
     app.get('/', function (req, res) {
-        res.sendfile('./index.html');
+        res.sendfile('./frontEnd/index.html');
     });
 
     app.post('/key', function (req, res) {
-        
+
         var documentStringTemp = req.body.key;
         var documentString = documentStringTemp.replace(/ /g, ''); // elinimating whitespaces
         var keysArray_withDuplicate = documentString ? documentString.split(',') : [];
@@ -27,7 +27,7 @@ function main() {
         console.log(keys);
 
         lookupApi.init(keys, res);
-        //resp.sendfile('./fieldSearch.html');
+        //resp.sendfile('./frontEnd/fieldSearch.html');
     });
 
     app.post('/values', function (req, res) {
