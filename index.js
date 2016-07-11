@@ -26,17 +26,6 @@ function main() {
         lookupApi.init(keys, res);
     });
 
-    // app.post('/values', function (req, res) {
-    //
-    //     var valueStringTemp = req.body.key;
-    //     var valueString = valueStringTemp.replace(/ /g, ''); // elinimating whitespaces
-    //     var values_PossibleDuplicates = valueString ? valueString.split(',') : [];
-    //     searchFields = lodash.uniq(values_PossibleDuplicates);
-    //     console.log(searchFields);
-    //   var res_obj = {name: 'akshay', university: 'George Mason University'}
-    //     res.send(200, searchFields)
-    // });
-
     app.listen(3000, function () {
         console.log('1. SERVER ACTIVE: http://127.0.0.1:3000');
     });
