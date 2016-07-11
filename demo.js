@@ -1,10 +1,30 @@
-var lodash = require('lodash');
+var solr = require('solr-client')
+var client = solr.createClient({
+    host: 'localhost',
+    port: 8983,
+    path: '/solr',
+    core: 'tester'
+});
 
-var arr= [1,2,3,4,5,6,7,8,9];
+// Switch on "auto commit", by default `client.autoCommit = false`
+client.autoCommit = true;
 
-arr.forEach(function(val){
+var docs = [];
+for(var i = 0; i <= 42 ; i++){
+    var doc = {
+       id : 12345 + i,
+        title : "Title "+ i,
+        description: "Text"+ i + "Alice"
+    }
+    docs.push(doc);
+}
 
-    console.log(val);
-
-
-})
+// Add documents
+client.add(docs,function(err,obj){
+    if(err){
+        console.log(err);
+    }else{
+        client.softCommit();
+        console.log(obj);
+    }
+});

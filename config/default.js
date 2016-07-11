@@ -20,6 +20,6 @@ module.exports = {
         host: 'localhost',
         port: 8983,
         path: '/solr',
-        core: 'testCore'
+        core: 'tester'
     }
 }
