@@ -43,9 +43,8 @@ setTimeout(function () {
 
 
 
-
-
 app.listen(3000, function () {
+    console.log('1. index.js STARTED');
     console.log('1. SERVER ACTIVE: http://127.0.0.1:3000');
 });
 
