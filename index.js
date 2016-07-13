@@ -3,7 +3,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var lodash = require('lodash');
-var fs = require('fs');
 
 var lookupApi = require('./lib/lookupApi');
 var indexSearch = require('./lib/indexSearch');
@@ -39,7 +38,7 @@ setTimeout(function () {
         indexSearch(query, res);
 
     });
-},5000)
+},1000)
 
 
 

@@ -18,6 +18,13 @@
 
 <form method="post" ACTION="http://127.0.0.1:3000/values">
     <br/>
+    <p>sample solr queries</p>
+
+    <p>q=type:video-playlist</p>
+
+    <p>q=*:*&fq=assetTypeName:video-playlist&fq=Status:published</p>
+
+    <p>q=*:*&fq=assetTypeName:video-playlist</p>
     Plug in the SOLR Query: <input type ="text" name="values">
     <br><br>
     <input type="submit" value="Submit">
