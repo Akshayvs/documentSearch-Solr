@@ -3,7 +3,7 @@
 var assert= require('chai').assert;
 var expect = require('chai').expect;
 
-var assert= require('mockery');
+var mockery= require('mockery');
 var sinon=require('sinon');
 
 
@@ -13,19 +13,29 @@ describe('main function ' , function (){
     var getStub=sinon.stub();
     var postStub=sinon.stub();
     var postStub=sinon.stub();
-    
-    before(function(){
+    var resStub=sinon.stub();
+    var resStub=sinon.stub();
+    var main;
+    getStub.withArgs('/').callsArgWith(1,'req',resStub);
 
+    before(function(){
         mockery.enable({
             useCleanCache: true
         });
 
         appStub={
-            get:getStub;
-            post:postStub;
-            listen:listenStub;
+            get:getStub,
+            post:postStub,
+            listen:listenStub
         }
 
+        resStub={
+           send:sendStub
+
+        }
+        mockery.registerAllowable('../index');
+        mockery.registerMock('express',appStub);
+        main= require('../index');
 
 
     });
@@ -35,5 +45,8 @@ describe('main function ' , function (){
         mockery.disable();
     });
 
+    it('does nothing',  function(){
+
+    });
 
 });
