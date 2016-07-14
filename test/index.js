@@ -1,52 +1,65 @@
 'use strict';
-
-var assert= require('chai').assert;
+var assert = require('chai').assert;
 var expect = require('chai').expect;
+var mockery = require('mockery');
+var sinon = require('sinon');
 
-var mockery= require('mockery');
-var sinon=require('sinon');
+describe('main function ', function () {
+    var res;
+    var sendFileStub;
 
+    var app;
+    var useStub = sinon.stub();
+    var getStub;
+    var postStub = sinon.stub();
+    var listenStub = sinon.stub();
 
-describe('main function ' , function (){
-
-    var appStub=sinon.stub();
-    var getStub=sinon.stub();
-    var postStub=sinon.stub();
-    var postStub=sinon.stub();
-    var resStub=sinon.stub();
-    var resStub=sinon.stub();
+    var expressStub;
+    var sendStub
     var main;
-    getStub.withArgs('/').callsArgWith(1,'req',resStub);
 
-    before(function(){
+    before(function () {
         mockery.enable({
             useCleanCache: true
         });
 
-        appStub={
-            get:getStub,
-            post:postStub,
-            listen:listenStub
-        }
+        res = {
+            sendfile: sendFileStub = sinon.stub(),
+            send: sendStub = sinon.stub()
+        };
 
-        resStub={
-           send:sendStub
+        app = {
+            use: useStub,
+            get: getStub = sinon.stub().callsArgWith(1, null, res),
+            post: postStub,
+            listen: listenStub
+        };
+        expressStub = sinon.stub().returns(app);
 
-        }
         mockery.registerAllowable('../index');
-        mockery.registerMock('express',appStub);
-        main= require('../index');
-
-
+        mockery.registerMock('express', expressStub);
+        main = require('../index');
     });
+
 
     after(function () {
         mockery.deregisterAll();
         mockery.disable();
     });
 
-    it('does nothing',  function(){
+    //========================================== TESTS ==========================================
+
+
+    it('should make a call to app.get', function () {
+        expect(getStub.callCount).to.equal(1)
 
     });
+
+
+    it('should make a call to app.post', function () {
+        expect(postStub.callCount).to.equal(1)
+
+    });
+
 
 });
