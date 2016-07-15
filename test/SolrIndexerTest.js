@@ -9,13 +9,13 @@ describe(' IndexerFunction - Indexes documents from couchbase into SOLR ', funct
     var obj = 'INDEXING SUCCESSFUL'
 
 
-    var solr_cliet_Mock ;
+    var solr_cliet_Mock;
     var createClientStub;
 
     var client
     var autoCommitStub = sinon.stub();
 
-    var addStub = sinon.stub()
+    var addStub
     //addStub.withArgs().callArgWith(1,obj)
 
     var softCommitStub = sinon.stub();
@@ -25,24 +25,31 @@ describe(' IndexerFunction - Indexes documents from couchbase into SOLR ', funct
     var sendFileStub = sinon.stub();
 
 
-
     var indexer
     var cbDoc_Array = [
         {doc1: 'body1'},
         {doc2: 'body2'},
+        {doc3: 'body3'}
     ]
 
     before(function () {
 
-        solr_cliet_Mock = {
-            createClient: createClientStub=sinon.stub().returns(client)
-        }
+        mockery.enable({
+            useCleanCache: true
+        });
 
         client = {
-            autoCommit: autoCommitStub ,
-            add: addStub,
+            autoCommit: autoCommitStub,
+            add: addStub = sinon.stub(),
             softCommit: softCommitStub
         }
+        addStub.withArgs({doc1: 'body1'}).callsArgWith(1, null, 'SUCCESS');
+        addStub.withArgs({err: 'or'}).callsArgWith(1,Error);
+
+        solr_cliet_Mock = {
+            createClient: createClientStub = sinon.stub().returns(client)
+        }
+
 
         res = {
             send: sendStub,
@@ -54,6 +61,10 @@ describe(' IndexerFunction - Indexes documents from couchbase into SOLR ', funct
 
     })
 
+    afterEach(function () {
+        mockery.resetCache();
+    });
+
     after(function () {
         (mockery.disable)
         mockery.resetCache();
@@ -62,26 +73,23 @@ describe(' IndexerFunction - Indexes documents from couchbase into SOLR ', funct
 
     //========================================== TESTS ==========================================
 
-    it('should call sendFileMock', function () {
+    it('should send a response after parsing the entire array', function () {
         indexer(cbDoc_Array, res);
         expect(sendFileStub.callCount).to.equal(1);
     })
 
-    it('should call client.add', function () {
+
+    it('should call call.softcommit if docs are indexed ', function () {
         indexer(cbDoc_Array, res);
-        expect(addStub.callCount).to.equal(1);
+        expect(softCommitStub.called).to.equal(true);
+
+    });
+
+    it('should res.send the error  if client.add sends an error', function () {
+        var error_Array = [{err: 'or'}, {err: 'or'}]
+        indexer(error_Array, res);
+        expect(sendStub.called).to.equal(true);
     })
 
-    it('should call res.send', function () {
-        indexer(cbDoc_Array, res);
-        expect(sendStub.callCount).to.equal(1);
-    })
-
-
-    /* it('should call client.autocommit', function () {
-         indexer(cbDoc_Array, res);
-         expect(autoCommitStub.callCount).to.equal(1);
-     })
- */
 
 });
