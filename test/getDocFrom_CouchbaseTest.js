@@ -12,7 +12,7 @@ describe('should getMultiple docs from Couchbase and parse the response JSON', f
     var myBucketStub;
     var callbackStub = sinon.spy();
     var getMulti = sinon.stub();
-
+    var searchKey = ['key1', 'key2'];
 //define a exact result json
     var results = {
         error: {
@@ -32,14 +32,11 @@ describe('should getMultiple docs from Couchbase and parse the response JSON', f
     getMulti.withArgs(['key1', 'key2']).callsArgWith(1, null, results);
     getMulti.withArgs([]).callsArgWith(1, 'err');
 
-    before(function () {
-        mockery.enable({
-            useCleanCache: true
-        });
+    before (function () {
 
-        myBucketStub = {
-            getMulti: getMulti
-        }
+        mockery.enable({useCleanCache: true});
+
+        myBucketStub = {getMulti: getMulti};
 
         mockery.registerAllowable('../lib/getDocFrom_CouchbaseTest.js');
         mockery.registerMock('./cbConnect', myBucketStub);
@@ -52,23 +49,20 @@ describe('should getMultiple docs from Couchbase and parse the response JSON', f
         mockery.disable();
     });
 
+    //========================================== TESTS ==========================================
 
     it('makes a call to myBucket.GetMulti', function(){
-        var searchKey = ['key1', 'key2'];
         getDocsFrom_Couchbase(searchKey, callbackStub);
         assert.equal(getMulti.callCount, 1);
     });
 
-
-    it('should give back a json object to getMulti', function(){
-        var searchKey = ['key1', 'key2'];
-
+    it('should callgetMulti function with KEYS' , function () {
         getDocsFrom_Couchbase(searchKey, callbackStub);
-
-        expect(callbackStub.calledWith( null, results)).to.equal(true);
-        //expect(callbackStub.calledWith( null, results)).to.equal(true);
-
+        expect(getMulti.calledWith(['key1', 'key2'])).to.equal(true);
     });
 
-
+    it('should return a JSON document to CALLBACK', function(){
+        getDocsFrom_Couchbase(searchKey, callbackStub);
+        expect(callbackStub.calledWith( null, results)).to.equal(true);
+    });
 });

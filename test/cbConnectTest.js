@@ -13,7 +13,7 @@ describe('Couchbase Connection', function () {
 
     var openBucketStub = sinon.stub();
     openBucketStub.withArgs('uname','pass').callsArgWith(2,null,'success'); //success
-    openBucketStub.withArgs('presentation_assets', 'PassW0rd').callsArgWith(2,null,'success'); //failure
+    openBucketStub.withArgs('presentation_assets', 'PassW0rd').callsArgWith(2); //failure
 
 
     before('enable mockery', function () {
